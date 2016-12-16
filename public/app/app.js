@@ -2,22 +2,35 @@
 
     var app = angular.module('app', []);
 
-    // $provide é um serviço do angular, por isso ele sabe como injetá-lo
-    app.config(function ($provide) {
+    // Não é necessário injetar o provider, todo módulo já o possui
+    app.provider('books', function () {
+        this.$get = function () { // Todo provedor deve ter uma função '$get' para criar o serviço
+            var nomeApp = 'Registro de Livros';
+            var descricaoApp = 'Registra os livros que você leu.'
 
-        // Primeiro parâmetro é o nome do serviço
-        $provide.provider('books', function () {
+            var version = '1.0';
 
-            this.$get = function () { // Todo provedor deve ter uma função '$get' para criar o serviço
-                var nomeApp = 'Registro de Livros';
-                var descricaoApp = 'Registra os livros que você leu.'
-
-                return {
-                    nomeApp: nomeApp,
-                    descricaoApp: nomeApp
-                }
-
+            if (incluirVersaoNoTitulo) {
+                nomeApp += ' ' + version;
             }
-        });
+
+            return {
+                nomeApp: nomeApp,
+                descricaoApp: nomeApp
+            };
+
+        };
+
+        var incluirVersaoNoTitulo = false;
+        this.setIncluirVersaoNoTitulo = function (valor) {
+            incluirVersaoNoTitulo = valor;
+        };
+
     });
+
+    // O angular cria automaticamente o provedor com o sufixo Provider
+    app.config(function (booksProvider) {
+        booksProvider.setIncluirVersaoNoTitulo(true);
+    });
+
 } ());
