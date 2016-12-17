@@ -29,7 +29,7 @@
                     id: 'f84r5w561f6sd1fsfsd615',
                     name: 'Shablau',
                     metaMinutosLeitura: 60,
-                    minutosLidos: 17
+                    minutosLidos: 55000
                 }
             ]
         }

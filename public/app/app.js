@@ -31,6 +31,7 @@
 
     // O angular cria automaticamente o provedor com o sufixo Provider
     // Os serviços registrados como constantes podem ser injetados nos configuradores
+    // OS serviços criados como value não podem ser injetados na fase de configuração
     app.config(function (booksProvider, constants) {
         booksProvider.setIncluirVersaoNoTitulo(true);
 
