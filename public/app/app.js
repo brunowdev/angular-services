@@ -3,12 +3,13 @@
     var app = angular.module('app', []);
 
     // Não é necessário injetar o provider, todo módulo já o possui
-    app.provider('books', function () {
+    app.provider('books', function (constants) {
         this.$get = function () { // Todo provedor deve ter uma função '$get' para criar o serviço
-            var nomeApp = 'Registro de Livros';
-            var descricaoApp = 'Registra os livros que você leu.'
 
-            var version = '1.0';
+            var nomeApp = constants.APP_TITLE;
+            var descricaoApp = constants.APP_DESCRIPTION;
+
+            var version = constants.APP_VERSION;
 
             if (incluirVersaoNoTitulo) {
                 nomeApp += ' ' + version;
@@ -29,8 +30,12 @@
     });
 
     // O angular cria automaticamente o provedor com o sufixo Provider
-    app.config(function (booksProvider) {
+    // Os serviços registrados como constantes podem ser injetados nos configuradores
+    app.config(function (booksProvider, constants) {
         booksProvider.setIncluirVersaoNoTitulo(true);
+
+        console.log('Exibindo o títulko na fase de configuração: ' + constants.APP_TITLE);
+
     });
 
 } ());
