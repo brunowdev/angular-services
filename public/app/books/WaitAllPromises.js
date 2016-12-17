@@ -7,42 +7,22 @@
     function BooksController(books, dataService, LoggerBase, tagService) {
 
         var vm = this;
+
         vm.nomeApp = books.nomeApp;
 
-        dataService.getAllBooks()
-            .then(getBooksSuccess, null, notificationFunction)
-            .catch(errorHandler)
-            .finally(onComplete);
+        var allBooks = dataService.getAllBooks();
+        var allReaders = dataService.getOutraFuncaoComProximo();
 
-        // Função quando a promise é deferida
-        function getBooksSuccess(books) {
-            vm.allBooks = books;
+        // Passar o array com as promises que devem ser deferidas para executar uma ação 
+        $q.all([allBooks, allReaders])
+            .then(funcaoSucesso)
+            .catch(trataErro);
+
+        // A resposta é um array na mesma ordem de chamada das funções
+        function funcaoSucesso(dataArray) {
+            vm.allBooks = dataArray[0];
+            vm.allReaders = dataArray[1];
         }
-
-        // Trocada pela errorHandler que trata também erros no callback
-        // Função quando a promise é rejeitada
-        // function getBooksError(reason) {
-        //    LoggerBase.output(reason);
-        // }
-
-        function errorHandler(exception) {
-            LoggerBase.output('Catch: ' + exception);
-        }
-
-        function onComplete() {
-            LoggerBase.output('Livros carregados');
-        }
-
-        // Função que recebe as notificações disparadas pela promise
-        function notificationFunction(message) {
-            console.log('MENSAGEM : ' + message);
-        }
-
-        vm.allReaders = dataService.getAllReaders();
-
-        vm.getTag = tagService.recuperaTag;
-
-        LoggerBase.output('O controller de Books foi criado');
 
     }
 
