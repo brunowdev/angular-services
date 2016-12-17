@@ -35,7 +35,7 @@
     app.config(['booksProvider', 'constants', function (booksProvider, constants) {
         booksProvider.setIncluirVersaoNoTitulo(true);
 
-        console.log('Exibindo o títulko na fase de configuração: ' + constants.APP_TITLE);
+        console.log('Exibindo o título na fase de configuração: ' + constants.APP_TITLE);
 
     }]);
 

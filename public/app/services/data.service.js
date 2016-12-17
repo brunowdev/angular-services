@@ -1,10 +1,10 @@
 (function () {
 
     angular.module('app')
-        .factory('dataService', dataService);
+        .factory('dataService', ['$q', '$timeout', dataService]);
     // Nome do serviço, função que será definida no $get
 
-    function dataService(LoggerBase) {
+    function dataService($q, $timeout) {
 
         return {
             getAllBooks: getAllBooks,
@@ -13,9 +13,7 @@
 
         function getAllBooks() {
 
-            LoggerBase.output('retornando livros');
-
-            return [
+            var books = [
                 {
                     id: 'd45a51d6w51dq61dwq1',
                     title: 'Think and Grow Rich',
@@ -23,12 +21,31 @@
                     published: 2000
                 }
             ]
+
+            var deferred = $q.defer();
+
+            $timeout(function () {
+
+                var successful = true;
+
+                if (successful) {
+                    deferred.notify('Iniciando...'); // Notificações que são lançadas durante o andamento do processo
+                    deferred.notify('Quase lá...');
+                    deferred.resolve(books);
+                } else {
+                    deferred.notify('Houve um erro...');
+                    deferred.notify('Identificando possíveis causas...');
+                    deferred.rejeect('Erro ao carregar os livros');
+                }
+
+            }, 1000);
+
+            return deferred.promise;
+
         }
 
 
         function getAllReaders() {
-
-            LoggerBase.output('retornando leitores');
 
             return [
                 {
