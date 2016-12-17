@@ -4,7 +4,7 @@
         .factory('dataService', dataService);
     // Nome do serviço, função que será definida no $get
 
-    function dataService() {
+    function dataService(LoggerBase) {
 
         return {
             getAllBooks: getAllBooks,
@@ -12,6 +12,9 @@
         }
 
         function getAllBooks() {
+
+            LoggerBase.output('retornando livros');
+
             return [
                 {
                     id: 'd45a51d6w51dq61dwq1',
@@ -24,6 +27,9 @@
 
 
         function getAllReaders() {
+
+            LoggerBase.output('retornando leitores');
+
             return [
                 {
                     id: 'f84r5w561f6sd1fsfsd615',
@@ -36,5 +42,6 @@
 
     }
 
+    dataService.$inject = ['LoggerBase'];
 
 } ());

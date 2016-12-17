@@ -1,7 +1,7 @@
 (function () {
 
     angular.module('app')
-        .controller('BooksController', BooksController);
+        .controller('BooksController', ['books', 'dataService', 'LoggerBase', 'tagService', BooksController]);
 
 
     function BooksController(books, dataService, LoggerBase, tagService) {
@@ -13,7 +13,7 @@
         vm.allReaders = dataService.getAllReaders();
 
         vm.getTag = tagService.recuperaTag;
-        
+
         LoggerBase.output('O controller de Books foi criado');
 
     }
